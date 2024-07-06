@@ -26,6 +26,14 @@ with various model providers by leveraging gateways such as Portkey.
     <img src="./screenshots/light-full.png" height="400" />
 </p>
 
+## Docker
+
+You can run MiniChat with Docker, the image is less than 2MB.
+
+```
+docker run -p 3216:3216 ghcr.io/functorism/minichat:master
+```
+
 ## Docker Compose
 
 ### Ollama
