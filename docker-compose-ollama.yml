@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  minichat:
+    build: .
+    ports:
+      - "3216:3216"
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    environment:
+      OLLAMA_DEBUG: "1"
+      OLLAMA_ORIGINS: "*"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+
+volumes:
+  ollama:
+    driver: local
