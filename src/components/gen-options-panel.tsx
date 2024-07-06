@@ -1,7 +1,14 @@
 import { useContext, useEffect, useRef } from "react";
 import { AppStateContext } from "../control/state.js";
 import { twMerge } from "tailwind-merge";
-import { LucideDelete, LucidePlus, LucideX } from "lucide-react";
+import {
+  LucideCheck,
+  LucideDelete,
+  LucidePlus,
+  LucideToggleLeft,
+  LucideToggleRight,
+  LucideX,
+} from "lucide-react";
 import { Tooltip } from "./tooltip.js";
 
 export const GenOptionsPanel = ({}: {}) => {
@@ -118,7 +125,7 @@ const Headers = () => {
       <dialog
         ref={dialogRef}
         className={twMerge(
-          "w-[80svw] h-[80svh] rounded shadow p-4 relative",
+          "w-[80svw] h-[80svh] rounded shadow p-4 relative outline-none",
           state.darkMode ? "bg-zinc-900  text-white" : "bg-yellow-50 text-black"
         )}
       >
@@ -132,18 +139,44 @@ const Headers = () => {
             />
           </Tooltip>
         </div>
-        <span
-          className="flex gap-1 text-xs place-items-center select-none"
-          onClick={() => {
-            api.setOptions((o) => ({
-              ...o,
-              headers: [...o.headers, ["", ""] as [string, string]],
-            }));
-          }}
-        >
-          <LucidePlus className="inline text-xs" width={12} />
-          Add Header
-        </span>
+        <div className="flex gap-4">
+          <span
+            className="flex gap-2 text-xs place-items-center select-none"
+            onClick={() => {
+              api.setOptions((o) => ({
+                ...o,
+                headers: [...o.headers, ["", ""] as [string, string]],
+              }));
+            }}
+          >
+            <LucidePlus className="inline text-xs" width={12} />
+            Add Header
+          </span>
+          <Tooltip tooltip="Omit default headers from OpenAI SDK">
+            <span
+              className="flex gap-2 text-xs place-items-center select-none"
+              onClick={() => {
+                api.setOptions((o) => ({
+                  ...o,
+                  sendMinimalHeaders: !o.sendMinimalHeaders,
+                }));
+              }}
+            >
+              {state.options.sendMinimalHeaders ? (
+                <LucideToggleRight
+                  className="inline text-xs text-green-500"
+                  width={12}
+                />
+              ) : (
+                <LucideToggleLeft
+                  className="inline text-xs text-red-800"
+                  width={12}
+                />
+              )}
+              Send Minimal Headers
+            </span>
+          </Tooltip>
+        </div>
 
         {state.options.headers.map(([key, value], i) => (
           <div className="flex gap-2 p-2" key={i}>

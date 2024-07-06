@@ -25,6 +25,7 @@ const zGenOptions = z.object({
   apiKey: z.string().default("unused-ollama-key"),
   apiUrl: z.string().default("http://localhost:11434/v1"),
   headers: z.array(z.tuple([z.string(), z.string()])).default([]),
+  sendMinimalHeaders: z.boolean().default(false),
 });
 
 const getGenOptions = (): GenOptions => {
@@ -53,6 +54,7 @@ export type GenOptions = {
   apiKey: string;
   apiUrl: string;
   headers: Array<[string, string]>;
+  sendMinimalHeaders: boolean;
 };
 
 export type AppState = {

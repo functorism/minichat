@@ -1,3 +1,4 @@
+import "openai/shims/web";
 import OpenAI from "openai";
 import { AppStateContext, GenOptions } from "./state.js";
 import { useCallback, useContext } from "react";
@@ -9,16 +10,33 @@ async function* chatComplete(messages: Messages, opts: GenOptions) {
     baseURL: opts.apiUrl,
     apiKey: opts.apiKey,
     dangerouslyAllowBrowser: true,
-    defaultHeaders: {
-      Authorization: `Bearer ${opts.apiKey}`,
-      ...Object.fromEntries(opts.headers),
+    fetch: async (url: RequestInfo, init?: RequestInit) => {
+      const headers = {
+        ...(opts.sendMinimalHeaders
+          ? {
+              "Content-Type": "application/json",
+            }
+          : init?.headers),
+        ...Object.fromEntries(opts.headers),
+      };
+
+      const res = await fetch(url, {
+        ...init,
+        headers,
+      });
+
+      return res;
     },
   });
 
+  const { top_p, temperature, max_tokens, model } = opts;
+
   const stream = await openai.chat.completions.create({
-    ...opts,
+    model,
+    top_p,
+    temperature,
+    max_tokens,
     messages,
-    max_tokens: 4096,
     stream: true,
   });
 

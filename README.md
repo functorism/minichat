@@ -66,3 +66,19 @@ UI Settings:
 - API Key: sk-...
 - Headers
   - x-portkey-provider: anthropic
+
+### HuggingFace Text Generation Inference
+
+Run
+
+```
+docker compose -f docker-compose-tf-tgi.yml up
+```
+
+UI Settings:
+
+- Model: HuggingFaceH4/zephyr-7b-beta
+- OpenAI API URL: http://localhost:8080/v1
+- API Key: unused-for-hf-tgi
+- Headers
+  - Check "Send Minimal Headers"

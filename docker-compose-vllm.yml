@@ -1,0 +1,27 @@
+# untested due to https://github.com/vllm-project/vllm/issues/2393
+
+services:
+  minichat:
+    build: .
+    ports:
+      - "3216:3216"
+
+  vllm:
+    image: vllm/vllm-openai:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - vllm:/root/.cache/huggingface 
+    environment:
+      HUGGING_FACE_HUB_TOKEN: "${HUGGING_FACE_HUB_TOKEN}"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+
+volumes:
+  vllm:
+    driver: local

@@ -1,0 +1,29 @@
+services:
+  minichat:
+    build: .
+    ports:
+      - "3216:3216"
+
+  hf-tgi:
+    image: ghcr.io/huggingface/text-generation-inference
+    ports:
+      - "8080:80"
+    volumes:
+      - hf-tgi:/data
+    env_file:
+      - .env
+    environment:
+      MODEL_ID: "HuggingFaceH4/zephyr-7b-beta"
+      CORS_ALLOW_ORIGIN: "http://localhost:3216"
+      HF_API_TOKEN: "${HF_API_TOKEN}"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+
+volumes:
+  hf-tgi:
+    driver: local
