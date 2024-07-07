@@ -2,6 +2,8 @@
 
 A minimalistic LLM chat UI, inspired by [Fooocus](https://github.com/lllyasviel/Fooocus) and [Pi](https://pi.ai/).
 
+If you have a CORS enabled API endpoint to use, you can try it [here](https://functorism.github.io/minichat/).
+
 <p align="center">
     <img src="./screenshots/dark-chat.png" width="400" />
     <img src="./screenshots/light-chat.png" width="400" />
