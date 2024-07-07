@@ -2,7 +2,6 @@ import { useContext, useEffect, useRef } from "react";
 import { AppStateContext } from "../control/state.js";
 import { twMerge } from "tailwind-merge";
 import {
-  LucideCheck,
   LucideDelete,
   LucidePlus,
   LucideToggleLeft,
